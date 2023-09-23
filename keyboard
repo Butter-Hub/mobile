@@ -3,7 +3,7 @@
 
 -- Instances:
 
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/Butter-Hub/mobile/main/Keyboard2'),true))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Butter-Hub/mobile/main/Keyboard2'))("")
 local KeyboardguiWarriorRoberrVersion = Instance.new("ScreenGui")
 local Drag = Instance.new("Frame")
 local Close = Instance.new("TextButton")
