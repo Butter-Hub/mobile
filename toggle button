@@ -1,9 +1,3 @@
---This script was made by tip05
-
-
--- Gui to Lua
--- Version: 3.2
-
 -- Instances:
 
 local function makeUI()
@@ -57,34 +51,43 @@ local function updateColors(sg)
     sg.closeframe.btn.TextWrapped = true
     sg.closeframe.btn.Font = Enum.Font.Gotham
 end
+
 local ui
 local newSG = makeUI()
 
-for i,v in pairs(game.CoreGui:GetChildren()) do
-    if v:IsA"ScreenGui" and v:FindFirstChild("Main") and v.Main:FindFirstChildOfClass"UICorner" then
-        ui = v.Main
+local function findUI()
+    for _, player in pairs(game.Players:GetPlayers()) do
+        local playerGui = player:FindFirstChild("PlayerGui")
+        if playerGui then
+            for _, v in pairs(playerGui:GetChildren()) do
+                if v:IsA"ScreenGui" and v.Name == "frosty is cute" and v:FindFirstChild("Main") and v.Main:FindFirstChildOfClass"UICorner" then
+                    ui = v.Main
+                end
+            end
+        end
     end
 end
+
+findUI()
+
 if not ui then
-    local guiFinder
-    guiFinder = game.CoreGui.DescendantAdded:connect(function(v)
-        if v:IsA"UICorner" and v.Parent.Name == "Main" and v.Parent.Parent:IsA"ScreenGui" then
-            ui = v.Parent
-            guiFinder:Disconnect()
-            task.wait(0.5)
-            updateColors(newSG)
-        end
+    game.Players.PlayerAdded:Connect(function(player)
+        player:WaitForChild("PlayerGui").ChildAdded:Connect(function(v)
+            if v:IsA"ScreenGui" and v.Name == "frosty is cute" and v:FindFirstChild("Main") and v.Main:FindFirstChildOfClass"UICorner" then
+                ui = v.Main
+                updateColors(newSG)
+            end
+        end)
     end)
 end
 
--- Scripts:
 local closed = false
 newSG.closeframe.btn.MouseButton1Down:Connect(function()
     local btn = newSG.closeframe.btn
     if not ui then
-        task.spawn(function()
+        spawn(function()
             btn.Text = "Butter not executed!"
-            task.wait(1)
+            wait(1)
             btn.Text = closed and "Open" or "Close"
         end)
     else
